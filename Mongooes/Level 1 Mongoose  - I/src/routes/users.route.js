@@ -47,6 +47,10 @@ userRoutes.patch("/:id", async (req, res) => {
 userRoutes.delete("/:id", async (req, res) => {
 	const { id } = req.params;
 	try {
+		const findExistingDelete = await userModule.findById(id);
+		if(!findExistingDelete){
+			res.status(400).send("User not found!")
+		}
 		const user = await userModule.findByIdAndDelete(id)
 		res.status(201).send("User deleted successfully!")
 	} catch (error) {
